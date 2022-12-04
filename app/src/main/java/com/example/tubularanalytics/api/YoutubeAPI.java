@@ -1,10 +1,16 @@
 package com.example.tubularanalytics.api;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
+import android.widget.ImageView;
 
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
@@ -25,7 +31,7 @@ public class YoutubeAPI {
         return videoId;
     }
 
-    public static String[] getChannelId(String link) {
+    public static String getChannelId(String link) {
         String[] channelId = new String[2];
         if (link.contains("/channel/")) {
             channelId[0] = "&id=";
@@ -43,7 +49,7 @@ public class YoutubeAPI {
         if (channelId[1].contains("/")) {
             channelId[1] = channelId[1].split("/")[0];
         }
-        return channelId;
+        return channelId[0] + channelId[1];
     }
 
     public static JSONObject getVideoStats(String videoId) {
@@ -65,9 +71,9 @@ public class YoutubeAPI {
             JSONObject statistics = jsonObj.getJSONArray("items").getJSONObject(0).getJSONObject("statistics");
 
             jsonObj = new JSONObject();
-
             jsonObj.put("videoName", snippet.getString("title"));
             jsonObj.put("channelName", snippet.getString("channelTitle"));
+            jsonObj.put("thumbnail", snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url"));
             jsonObj.put("numViews", statistics.getInt("viewCount"));
             jsonObj.put("numLikes", statistics.getInt("likeCount"));
             jsonObj.put("numComments", statistics.getInt("commentCount"));
@@ -81,9 +87,9 @@ public class YoutubeAPI {
         return null;
     }
 
-    public static JSONObject getChannelStats(String[] channelId) {
+    public static JSONObject getChannelStats(String channelId) {
         try  {
-            URL url = new URL(API_URL + "/channels?part=snippet&part=statistics" + channelId[0] + channelId[1] + API_KEY);
+            URL url = new URL(API_URL + "/channels?part=snippet&part=statistics" + channelId + API_KEY);
             URLConnection conn = url.openConnection();
             conn.connect();
 
@@ -101,17 +107,52 @@ public class YoutubeAPI {
 
             jsonObj = new JSONObject();
             jsonObj.put("channelName", snippet.getString("title"));
+            jsonObj.put("thumbnail", snippet.getJSONObject("thumbnails").getJSONObject("default").getString("url"));
             jsonObj.put("numViews", statistics.getInt("viewCount"));
             jsonObj.put("numSubscribers", statistics.getInt("subscriberCount"));
             jsonObj.put("numVideos", statistics.getInt("videoCount"));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 jsonObj.put("snapshotDate", Instant.now().toEpochMilli());
             }
+
             return jsonObj;
 
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            for (StackTraceElement el : e.getStackTrace()) {
+                Log.d("tubular-analytics", el.toString());
+            }
+        }
 
         return null;
+    }
+
+    public static void showThumbnailFromUrl(ImageView imageView, String imageURL) {
+        new DownloadImageTask(imageView).execute(imageURL);
+    }
+
+    private static class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+        ImageView bmImage;
+
+        public DownloadImageTask(ImageView bmImage) {
+            this.bmImage = bmImage;
+        }
+
+        protected Bitmap doInBackground(String... urls) {
+            String urldisplay = urls[0];
+            Bitmap mIcon11 = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                mIcon11 = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return mIcon11;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            bmImage.setImageBitmap(result);
+        }
     }
 
 }

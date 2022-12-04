@@ -26,6 +26,22 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".pages.overview_pages.ChannelOverview"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".pages.overview_pages.VideoOverview"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".pages.selected_pages.SelectedChannel"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".pages.selected_pages.SelectedVideo"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

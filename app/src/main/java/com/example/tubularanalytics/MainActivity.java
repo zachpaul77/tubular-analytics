@@ -15,12 +15,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //new Thread(() -> { new VideoDB(this).saveVideoStats("https://www.youtube.com/watch?v=kX3nB4PpJko"); }).start();
-        //new Thread(() -> { new ChannelDB(this).saveChannelStats("https://www.youtube.com/user/MrBeast6000/featured"); }).start();
-
-        try {
-            Log.d("tubular-analytics", new VideoDB(this).getVideoStats("i7PX9gyZwW8").toString());
-            Log.d("tubular-analytics", new ChannelDB(this).getAllChannelStats().toString());
-        } catch (Exception e) {}
+        /* YT API EXAMPLE
+        new Thread(() -> { new ChannelDB(this).saveStatsFromURL("https://www.youtube.com/user/MrBeast6000/featured"); }).start();
+        new Thread(() -> { new VideoDB(this).saveStatsFromURL("https://www.youtube.com/watch?v=kX3nB4PpJko"); }).start();
+        Log.d("tubular-analytics", new VideoDB(this).getVideoSnapshots("i7PX9gyZwW8").toString());
+        Log.d("tubular-analytics", new ChannelDB(this).getAllChannelStats().toString());
+         */
     }
 }

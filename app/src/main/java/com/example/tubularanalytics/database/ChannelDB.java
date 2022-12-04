@@ -22,13 +22,13 @@ public class ChannelDB extends SQLiteOpenHelper {
     private static final String CHANNEL_INFO_TABLE = "channel_info";
 
     public ChannelDB(@Nullable Context context) {
-        super(context, CHANNEL_STATS_TABLE, null, 1);
+        super(context, CHANNEL_INFO_TABLE, null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         String createTable1 = "CREATE TABLE " + CHANNEL_INFO_TABLE + " (_id TEXT PRIMARY KEY, " +
-                "channelName TEXT)";
+                "channelName TEXT, thumbnail TEXT)";
 
         String createTable2 = "CREATE TABLE " + CHANNEL_STATS_TABLE + " (ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "_id TEXT, numViews INTEGER, numSubscribers INTEGER, numVideos INTEGER, snapshotDate LONG)";
@@ -43,13 +43,32 @@ public class ChannelDB extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public void saveStatsFromURL(String channelURL) {
+        String channelId = YoutubeAPI.getChannelId(channelURL);
+        saveStatsFromID(channelId);
+    }
+    public void saveStatsFromID(String channelId) {
+        JSONObject channelStats = YoutubeAPI.getChannelStats(channelId);
+        saveStats(channelId, channelStats);
+    }
+
+    public void deleteChannel(String _id) {
+        this.getWritableDatabase().execSQL("DELETE FROM " + CHANNEL_INFO_TABLE + " WHERE _id='" + _id + "'");
+        this.getWritableDatabase().execSQL("DELETE FROM " + CHANNEL_STATS_TABLE + " WHERE _id='" + _id + "'");
+    }
+    public void deleteChannelSnapshot(String ID) {
+        this.getWritableDatabase().execSQL("DELETE FROM " + CHANNEL_STATS_TABLE + " WHERE ID='" + ID + "'");
+    }
+
     private void saveStats(String id, JSONObject stats) {
+
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         try {
             cv.put("_id", id);
             cv.put("channelName", stats.getString("channelName"));
+            cv.put("thumbnail", stats.getString("thumbnail"));
             db.insert(CHANNEL_INFO_TABLE, null, cv);
 
             cv = new ContentValues();
@@ -59,43 +78,11 @@ public class ChannelDB extends SQLiteOpenHelper {
             cv.put("numVideos", stats.getInt("numVideos"));
             cv.put("snapshotDate", stats.getLong("snapshotDate"));
             db.insert(CHANNEL_STATS_TABLE, null, cv);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            Log.d("tubular-analytics", e.toString());
+        }
 
         db.close();
-    }
-
-    public void saveChannelStats(String channelURL) {
-        String[] channelId = YoutubeAPI.getChannelId(channelURL);
-        JSONObject channelStats = YoutubeAPI.getChannelStats(channelId);
-        saveStats(channelId[1], channelStats);
-    }
-
-    public JSONObject getChannelStats(String channelId) {
-        Cursor c = this.getWritableDatabase().rawQuery("SELECT * FROM " + CHANNEL_INFO_TABLE + " WHERE _id = '" + channelId + "'", null);
-
-        if (c.moveToFirst()) {
-            try {
-                JSONObject jsonObj = new JSONObject();
-                jsonObj.put("_id", c.getString(0));
-                jsonObj.put("channelName", c.getString(1));
-
-                JSONArray snapshotArray = new JSONArray();
-                Cursor c1 = this.getWritableDatabase().rawQuery(
-                        "SELECT * FROM " + CHANNEL_STATS_TABLE + " WHERE _id = '" + channelId + "'", null);
-
-                while (c1.moveToNext()) {
-                    JSONObject snapshotObj = new JSONObject();
-                    snapshotObj.put("numViews", c1.getInt(2));
-                    snapshotObj.put("numSubscribers", c1.getInt(3));
-                    snapshotObj.put("numVideos", c1.getInt(4));
-                    snapshotObj.put("snapshotDate", c1.getLong(5));
-                    snapshotArray.put(snapshotObj);
-                }
-                jsonObj.put("snapshots", snapshotArray);
-                return jsonObj;
-            } catch (JSONException e) {}
-        }
-        return null;
     }
 
     public ArrayList<JSONObject> getAllChannelStats() {
@@ -107,6 +94,7 @@ public class ChannelDB extends SQLiteOpenHelper {
                 JSONObject jsonObj = new JSONObject();
                 jsonObj.put("_id", c.getString(0));
                 jsonObj.put("channelName", c.getString(1));
+                jsonObj.put("thumbnail", c.getString(2));
 
                 JSONArray snapshotArray = new JSONArray();
                 Cursor c1 = this.getWritableDatabase().rawQuery(
@@ -114,6 +102,7 @@ public class ChannelDB extends SQLiteOpenHelper {
 
                 while (c1.moveToNext()) {
                     JSONObject snapshotObj = new JSONObject();
+                    snapshotObj.put("ID", c1.getInt(0));
                     snapshotObj.put("numViews", c1.getInt(2));
                     snapshotObj.put("numSubscribers", c1.getInt(3));
                     snapshotObj.put("numVideos", c1.getInt(4));
@@ -125,6 +114,27 @@ public class ChannelDB extends SQLiteOpenHelper {
             } catch (JSONException e) {}
         }
         return videoList;
+    }
+
+    public ArrayList<JSONObject> getChannelSnapshots(String _id) {
+        try {
+            ArrayList<JSONObject> snapshotArray = new ArrayList<>();
+            Cursor c1 = this.getWritableDatabase().rawQuery(
+                    "SELECT * FROM " + CHANNEL_STATS_TABLE + " WHERE _id = '" + _id + "'", null);
+
+            while (c1.moveToNext()) {
+                JSONObject snapshotObj = new JSONObject();
+                snapshotObj.put("ID", c1.getInt(0));
+                snapshotObj.put("numViews", c1.getInt(2));
+                snapshotObj.put("numSubscribers", c1.getInt(3));
+                snapshotObj.put("numVideos", c1.getInt(4));
+                snapshotObj.put("snapshotDate", c1.getLong(5));
+                snapshotArray.add(snapshotObj);
+            }
+            return snapshotArray;
+        } catch (JSONException e) {}
+
+        return null;
     }
 
 }
