@@ -1,4 +1,4 @@
-package edu.floridapoly.mobiledeviceapps.fall22.settings;
+package com.example.tubularanalytics.pages;
 
 import androidx.appcompat.app.AppCompatActivity;
 
