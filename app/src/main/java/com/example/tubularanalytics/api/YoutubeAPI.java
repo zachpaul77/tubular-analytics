@@ -49,6 +49,7 @@ public class YoutubeAPI {
         if (channelId[1].contains("/")) {
             channelId[1] = channelId[1].split("/")[0];
         }
+        channelId[1] = channelId[1].replace("@", "");
         return channelId[0] + channelId[1];
     }
 
