@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Tubular Analytics</string>
+    <string name="vidBttn">Video Analytics</string>
+    <string name="channelBttn">Channel Analytics</string>
+    <string name="settings">Settings</string>
+    <string name="homeBttn">Home</string>
+    <string name="savedVids">Saved Videos</string>
+    <string name="addVid">Add video</string>
+    <string name="savedChan">Saved Channels</string>
+    <string name="addChan">Add channel</string>
 </resources>
