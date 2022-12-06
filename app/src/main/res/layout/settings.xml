@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Settings">
+    android:paddingHorizontal="12dp"
+    tools:context=".pages.Settings">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,12 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Home" />
 
         <TextView
             android:id="@+id/textView"
@@ -35,21 +30,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"
-            android:text="Show/Hide Views" />
+            android:text="Hide Views" />
 
         <Switch
             android:id="@+id/Likes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"
-            android:text="Show/Hide Likes" />
+            android:text="Hide Likes" />
 
         <Switch
             android:id="@+id/Comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp"
-            android:text="Show/Hide Comments" />
+            android:text="Hide Comments" />
+
+        <Switch
+            android:id="@+id/Subscribers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="Hide Subscribers" />
+
+        <Switch
+            android:id="@+id/Videos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="Hide # of Videos" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

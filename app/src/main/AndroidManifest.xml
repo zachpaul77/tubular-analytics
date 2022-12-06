@@ -15,34 +15,6 @@
         android:theme="@style/Theme.TubularAnalytics"
         tools:targetApi="31">
         <activity
-            android:name=".pages.settingsActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".pages.channelAnalyticsActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".pages.vidAnalyticsActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".MainActivity2"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".pages.MainActivity"
             android:exported="true">
             <intent-filter>
@@ -55,6 +27,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
         <activity
             android:name=".pages.overview_pages.ChannelOverview"
             android:exported="true" />
@@ -66,6 +39,15 @@
             android:exported="true" />
         <activity
             android:name=".pages.selected_pages.SelectedVideo"
+            android:exported="true" />
+        <activity
+            android:name=".pages.Settings"
+            android:exported="true" />
+        <activity
+            android:name=".pages.AddVideo"
+            android:exported="true" />
+        <activity
+            android:name=".pages.AddChannel"
             android:exported="true" />
     </application>
 

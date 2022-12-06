@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tubularanalytics.R;
 import com.example.tubularanalytics.api.YoutubeAPI;
 import com.example.tubularanalytics.database.ChannelDB;
+import com.example.tubularanalytics.pages.SharedPrefs;
 
 import org.json.JSONObject;
 
@@ -130,6 +131,16 @@ public class SelectedChannel extends AppCompatActivity {
                     if (viewsPChange >= 0) { holder.viewsPchange.setText("+" + viewsPChange + "%"); }
                     if (videosPChange >= 0) { holder.videosPchange.setText("+" + videosPChange + "%"); }
                     if (subscribersPChange >= 0) { holder.subscribersPchange.setText("+" + subscribersPChange + "%"); }
+                }
+
+                // Hide based on settings
+                SharedPrefs preferences = SharedPrefs.getInstance();
+                if (preferences.get("Views")) {
+                    holder.numViews.setText("");
+                } if (preferences.get("Videos")) {
+                    holder.numVideos.setText("");
+                } if (preferences.get("Subscribers")) {
+                    holder.numSubscribers.setText("");
                 }
 
                 holder.deleteSnapshotBtn.setOnClickListener((View view) -> {

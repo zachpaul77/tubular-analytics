@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tubularanalytics.R;
 import com.example.tubularanalytics.api.YoutubeAPI;
 import com.example.tubularanalytics.database.VideoDB;
+import com.example.tubularanalytics.pages.SharedPrefs;
 
 import org.json.JSONObject;
 
@@ -130,6 +131,16 @@ public class SelectedVideo extends AppCompatActivity {
                     if (viewsPChange >= 0) { holder.viewsPchange.setText("+" + viewsPChange + "%"); }
                     if (likesPChange >= 0) { holder.likesPchange.setText("+" + likesPChange + "%"); }
                     if (commentsPChange >= 0) { holder.commentsPchange.setText("+" + commentsPChange + "%"); }
+                }
+
+                // Hide based on settings
+                SharedPrefs preferences = SharedPrefs.getInstance();
+                if (preferences.get("Likes")) {
+                    holder.numLikes.setText("");
+                } if (preferences.get("Comments")) {
+                    holder.numComments.setText("");
+                } if (preferences.get("Views")) {
+                    holder.numViews.setText("");
                 }
 
                 holder.deleteSnapshotBtn.setOnClickListener((View view) -> {

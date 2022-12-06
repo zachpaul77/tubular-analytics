@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tubularanalytics.R;
 import com.example.tubularanalytics.api.YoutubeAPI;
 import com.example.tubularanalytics.database.ChannelDB;
+import com.example.tubularanalytics.pages.AddChannel;
 import com.example.tubularanalytics.pages.selected_pages.SelectedChannel;
 
 import org.json.JSONException;
@@ -44,6 +45,13 @@ public class ChannelOverview extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(channelOverviewAdapter);
     }
+
+    public void gotoAddChannel(View view) {
+        finish();
+        Intent intent = new Intent(getApplicationContext(), AddChannel.class);
+        startActivity(intent);
+    }
+
     public class ChannelOverviewAdapter extends RecyclerView.Adapter<ChannelOverviewAdapter.MyViewHolder> {
 
         private Context context;

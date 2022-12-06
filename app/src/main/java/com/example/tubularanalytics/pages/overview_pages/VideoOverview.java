@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tubularanalytics.R;
 import com.example.tubularanalytics.api.YoutubeAPI;
 import com.example.tubularanalytics.database.VideoDB;
+import com.example.tubularanalytics.pages.AddVideo;
 import com.example.tubularanalytics.pages.selected_pages.SelectedVideo;
 
 import org.json.JSONException;
@@ -44,6 +45,13 @@ public class VideoOverview extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(videoOverviewAdapter);
     }
+
+    public void gotoAddVideo(View view) {
+        finish();
+        Intent intent = new Intent(getApplicationContext(), AddVideo.class);
+        startActivity(intent);
+    }
+
     public class VideoOverviewAdapter extends RecyclerView.Adapter<VideoOverviewAdapter.MyViewHolder> {
 
         private Context context;

@@ -9,24 +9,28 @@ import android.widget.Button;
 import android.os.Bundle;
 
 import com.example.tubularanalytics.R;
+import com.example.tubularanalytics.pages.overview_pages.ChannelOverview;
+import com.example.tubularanalytics.pages.overview_pages.VideoOverview;
 
 public class MainActivity extends AppCompatActivity {
     private Button vidAnalyticsButton;
     private Button channAnalyticsButton;
     private Button settingsButton;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Setup global shared preferences
+        SharedPrefs.getInstance().Initialize(getApplicationContext());
+
         vidAnalyticsButton = (Button) findViewById(R.id.vidButton);
         vidAnalyticsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openVidAnalyticsActivity();
+                Intent intent = new Intent(getApplicationContext(), VideoOverview.class);
+                startActivity(intent);
             }
         });
 
@@ -34,35 +38,22 @@ public class MainActivity extends AppCompatActivity {
         channAnalyticsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openChannAnalyticsActivity();
+                Intent intent = new Intent(getApplicationContext(), ChannelOverview.class);
+                startActivity(intent);
             }
         });
 
-        settingsButton = (Button) findViewById(R.id.settings);
+        settingsButton = (Button) findViewById(R.id.settingsBtn);
         settingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openSettingsActivity();
+                Intent intent = new Intent(getApplicationContext(), Settings.class);
+                startActivity(intent);
             }
         });
     }
 
-    public void openVidAnalyticsActivity(){
-        Intent intent = new Intent(this, vidAnalyticsActivity.class);
-        startActivity(intent);
-    }
-
-    public void openChannAnalyticsActivity(){
-        Intent intent = new Intent(this, channelAnalyticsActivity.class);
-        startActivity(intent);
-    }
-
-    public void openSettingsActivity(){
-        Intent intent = new Intent(this, settingsActivity.class);
-        startActivity(intent);
-    }
 }
-
 
 /* YT API EXAMPLE
         new Thread(() -> { new ChannelDB(this).saveStatsFromURL("https://www.youtube.com/user/MrBeast6000/featured"); }).start();
