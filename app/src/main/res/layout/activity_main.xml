@@ -4,12 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".pages.MainActivity">
 
-    <TextView
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="372dp"
+        android:layout_height="71dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="98dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="562dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/logo" />
+
+    <Button
+        android:id="@+id/vidButton"
+        android:layout_width="237dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="286dp"
+        android:layout_marginEnd="65dp"
+        android:layout_marginBottom="371dp"
+        android:onClick="vidAnalyticsActivity"
+        android:text="@string/vidBttn"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/channelButton"
+        android:layout_width="237dp"
+        android:layout_height="74dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="402dp"
+        android:layout_marginEnd="65dp"
+        android:layout_marginBottom="256dp"
+        android:text="@string/channelBttn"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginStart="113.5dp"
+        android:layout_marginTop="589dp"
+        android:layout_marginEnd="113.5dp"
+        android:layout_marginBottom="94dp"
+        android:text="@string/settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
